@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -12,7 +11,6 @@
   <!-- Lucide icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  
   <script>
     tailwind.config = {
       theme: {
@@ -36,13 +34,12 @@
   </script>
 
   <style>
-    /*  Luxury palette  */
     :root{
-      --brand-dark: 44 26 18;   /* #2C1A12 */
-      --brand-gold: 200 155 60; /* #C89B3C */
-      --brand-soft: 230 197 122;/* #E6C57A */
-      --brand-paper: 248 246 242;/* #F8F6F2 */
-      --brand-ink: 30 30 30;    /* #1E1E1E */
+      --brand-dark: 44 26 18;
+      --brand-gold: 200 155 60;
+      --brand-soft: 230 197 122;
+      --brand-paper: 248 246 242;
+      --brand-ink: 30 30 30;
     }
 
     .reveal {
@@ -75,9 +72,6 @@
       background-size: cover;
       background-position: center;
     }
-
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
     section[id] { scroll-margin-top: 96px; }
 
@@ -142,10 +136,11 @@
       pointer-events: auto;
     }
 
+    /* Back-to-top moved up so it won't overlap the Inquiry icon */
     #toTop {
       position: fixed;
       right: 16px;
-      bottom: 92px;
+      bottom: 156px;
       z-index: 60;
       opacity: 0;
       transform: translateY(12px);
@@ -153,6 +148,23 @@
       transition: opacity .25s ease, transform .25s ease;
     }
     #toTop.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* ONE Inquiry per page: floating icon button */
+    #inquiryFab {
+      position: fixed;
+      right: 16px;
+      bottom: 92px;
+      z-index: 60;
+      transform: translateY(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    #inquiryFab.show {
       opacity: 1;
       transform: translateY(0);
       pointer-events: auto;
@@ -172,12 +184,22 @@
       box-shadow: 0 0 0 4px rgba(200,155,60,.22);
       border-color: rgba(200,155,60,.55);
     }
+
+    /* Make job cards clickable (no extra "Inquire" buttons everywhere) */
+    .job-card {
+      cursor: pointer;
+    }
+    .job-card:focus-within {
+      outline: 2px solid rgba(200,155,60,.45);
+      outline-offset: 4px;
+      border-radius: 24px;
+    }
   </style>
 </head>
 
 <body class="bg-brand-paper text-brand-ink">
 
-  <!-- Top bar -->
+  <!-- Top bar (removed the extra "Inquire Now" button; keep Assistance as icon-only to avoid confusion) -->
   <div class="bg-brand-dark text-brand-paper">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between">
@@ -193,26 +215,24 @@
         </div>
 
         <div class="flex items-center gap-2">
-          <a href="https://sys.yaramay.online/complaints" class="rounded-full bg-brand-paper/10 px-4 py-2 text-sm font-semibold hover:bg-brand-paper/15 transition">
-            Request Assistance
-          </a>
-          <a href="#inquire" class="rounded-full btn-primary px-4 py-2 text-sm font-extrabold transition shadow-sm">
-            Inquire Now
+          <!-- icon-only assistance -->
+          <a href="https://sys.yaramay.online/complaints"
+             class="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-brand-paper/15 bg-brand-paper/10 hover:bg-brand-paper/15 transition"
+             title="Request Assistance" aria-label="Request Assistance">
+            <i data-lucide="life-buoy" class="h-5 w-5"></i>
           </a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Header -->
+  <!-- Header (removed email pill to avoid multiple inquiry-looking CTAs) -->
   <header id="siteHeader" class="sticky top-0 z-40 border-b border-[rgba(44,26,18,.14)] bg-brand-paper/80 backdrop-blur">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between py-4">
         <a href="#" class="flex items-center gap-3">
           <div class="h-11 w-11 rounded-2xl bg-brand-dark text-brand-paper grid place-items-center shadow-sm ring-1 ring-[rgba(200,155,60,.35)]">
-          <img src="images/Logo3.png"
-           alt="Logo"
-            class="h-7 w-auto object-contain">
+            <img src="images/Logo3.png" alt="Logo" class="h-7 w-auto object-contain">
           </div>
           <div class="leading-tight">
             <p class="text-sm font-extrabold tracking-wide text-brand-dark">JOSELINE INTERNATIONAL</p>
@@ -230,11 +250,6 @@
         </nav>
 
         <div class="flex items-center gap-2">
-          <a href="mailto:inquire@joselinemanpowercorp.com"
-             class="hidden sm:inline-flex items-center gap-2 rounded-full border border-[rgba(44,26,18,.14)] bg-brand-paper px-4 py-2 text-sm font-semibold text-brand-ink/72 hover:bg-white transition">
-            <i data-lucide="at-sign" class="h-4 w-4 text-brand-dark/85"></i>
-            inquire@joselinemanpowercorp.com
-          </a>
           <button id="mobileBtn"
             class="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-[rgba(44,26,18,.14)] bg-brand-paper hover:bg-white transition"
             aria-label="Open menu">
@@ -251,8 +266,11 @@
           <a href="#jobs" class="mnav rounded-xl px-3 py-2 text-sm font-semibold text-brand-ink/75 hover:bg-white">Jobs</a>
           <a href="#stories" class="mnav rounded-xl px-3 py-2 text-sm font-semibold text-brand-ink/75 hover:bg-white">Stories</a>
           <a href="#inquire" class="mnav rounded-xl px-3 py-2 text-sm font-semibold text-brand-ink/75 hover:bg-white">Contact</a>
+
+          <!-- keep email inside menu, but icon-like -->
           <a href="mailto:inquire@joselinemanpowercorp.com"
-             class="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-brand-dark px-4 py-3 text-sm font-extrabold text-brand-paper hover:opacity-95 transition">
+             class="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-brand-dark px-4 py-3 text-sm font-extrabold text-brand-paper hover:opacity-95 transition"
+             title="Email Us" aria-label="Email Us">
             <i data-lucide="mail" class="h-4 w-4"></i>
             Email Us
           </a>
@@ -261,7 +279,7 @@
     </div>
   </header>
 
-  <!-- HERO -->
+  <!-- HERO (removed the big "Inquire Now" button to keep ONLY one inquiry entry point) -->
   <section class="relative overflow-hidden map-bg">
     <div class="absolute inset-0 grid-soft opacity-35"></div>
     <div class="absolute -top-24 -left-24 h-72 w-72 rounded-full blur-3xl" style="background: rgba(200,155,60,.22);"></div>
@@ -286,10 +304,6 @@
           </p>
 
           <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a href="#inquire" class="inline-flex items-center justify-center gap-2 rounded-2xl btn-primary px-6 py-3 text-sm font-extrabold transition shadow-sm">
-              <i data-lucide="send" class="h-4 w-4"></i>
-              Inquire Now
-            </a>
             <a href="#jobs" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-brand-paper/20 bg-brand-paper/10 px-6 py-3 text-sm font-extrabold text-brand-paper hover:bg-brand-paper/15 transition">
               <i data-lucide="briefcase-business" class="h-4 w-4"></i>
               View Featured Jobs
@@ -369,14 +383,16 @@
               </div>
             </div>
 
+            <!-- Removed "Talk to Us" inquiry button to avoid duplicates -->
             <div class="mt-5 flex flex-col gap-2 sm:flex-row">
-              <a href="#inquire" class="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-brand-paper px-4 py-3 text-sm font-extrabold text-brand-dark hover:bg-white transition">
-                <i data-lucide="phone" class="h-4 w-4"></i>
-                Talk to Us
-              </a>
               <a href="#deploy" class="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl border border-brand-paper/20 bg-transparent px-4 py-3 text-sm font-extrabold text-brand-paper hover:bg-brand-paper/10 transition">
                 <i data-lucide="route" class="h-4 w-4"></i>
                 See Deployments
+              </a>
+              <a href="mailto:inquire@joselinemanpowercorp.com"
+                 class="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-brand-paper px-4 py-3 text-sm font-extrabold text-brand-dark hover:bg-white transition">
+                <i data-lucide="mail" class="h-4 w-4"></i>
+                Email
               </a>
             </div>
 
@@ -385,7 +401,6 @@
               <img class="h-20 w-full rounded-2xl object-cover border border-brand-paper/10" src="images/Guidance.jpg" alt="Guidance">
               <img class="h-20 w-full rounded-2xl object-cover border border-brand-paper/10" src="images/Overseas opportunitys.jpg" alt="Overseas-opportunity">
             </div>
-
           </div>
         </div>
       </div>
@@ -489,7 +504,6 @@
                 </div>
               </div>
 
-              
               <div class="mt-7 rounded-2xl border border-[rgba(44,26,18,.12)] bg-brand-paper p-4">
                 <div class="flex items-center gap-3">
                   <img class="h-10 w-10 rounded-2xl object-cover" src="images/walter.png" alt="Walter">
@@ -534,7 +548,6 @@
           <h2 class="text-3xl font-extrabold tracking-tight text-brand-paper sm:text-4xl">
             Your success starts with clear, honest guidance.
           </h2>
-          
         </div>
       </div>
 
@@ -581,7 +594,7 @@
     </div>
   </section>
 
-  <!-- SERVICES -->
+  <!-- SERVICES (removed "Start an inquiry" link to avoid duplicates) -->
   <section id="services" class="py-16 sm:py-20">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="reveal flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -591,9 +604,6 @@
             Everything you need for a smooth application.
           </h2>
         </div>
-        <a href="#inquire" class="inline-flex items-center gap-2 text-sm font-extrabold text-brand-gold hover:opacity-90">
-          Start an inquiry <i data-lucide="arrow-right" class="h-4 w-4"></i>
-        </a>
       </div>
 
       <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -639,7 +649,7 @@
     </div>
   </section>
 
-  <!-- DEPLOY -->
+  <!-- DEPLOY (removed inquiry button) -->
   <section id="deploy" class="py-16 sm:py-20" style="background: linear-gradient(135deg, #2C1A12, #1f120c);">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="reveal flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -648,14 +658,7 @@
           <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-brand-paper sm:text-4xl">
             Current deployment categories
           </h2>
-          <p class="mt-3 max-w-2xl text-sm text-brand-paper/70">
-            
-          </p>
         </div>
-        <a href="#inquire" class="inline-flex items-center justify-center gap-2 rounded-2xl btn-primary px-5 py-3 text-sm font-extrabold transition">
-          <i data-lucide="send" class="h-4 w-4"></i>
-          Inquire for Availability
-        </a>
       </div>
 
       <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -690,7 +693,7 @@
     </div>
   </section>
 
-  <!-- JOBS -->
+  <!-- JOBS (removed all "Apply / Inquire" buttons; cards are clickable and auto-fill the form) -->
   <section id="jobs" class="py-16 sm:py-20">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="reveal flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -702,15 +705,13 @@
           <p class="mt-3 max-w-2xl text-sm text-brand-ink/72">
           </p>
         </div>
-        <a href="#inquire" class="inline-flex items-center gap-2 rounded-2xl border border-[rgba(44,26,18,.14)] bg-white px-5 py-3 text-sm font-extrabold text-brand-dark hover:bg-brand-paper transition">
-          <i data-lucide="sparkles" class="h-4 w-4 text-brand-gold"></i>
-          Request a Job Offer Update
-        </a>
       </div>
 
       <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <!-- 1 -->
-        <div class="reveal lift rounded-3xl border border-[rgba(44,26,18,.12)] bg-white shadow-sm overflow-hidden">
+        <div class="reveal lift job-card rounded-3xl border border-[rgba(44,26,18,.12)] bg-white shadow-sm overflow-hidden"
+             tabindex="0"
+             data-role="Female Nursing Specialist (Saudi)">
           <img class="h-44 w-full object-cover" src="images/nursing.jpg" alt="Nursing">
           <div class="p-6">
             <div class="flex items-start justify-between gap-3">
@@ -718,144 +719,109 @@
                 <p class="text-xs font-semibold text-brand-ink/55">Saudi</p>
                 <h3 class="mt-1 text-lg font-extrabold text-brand-dark">Female Nursing Specialist</h3>
               </div>
-              
+              <i data-lucide="pointer" class="h-5 w-5 text-brand-ink/35"></i>
             </div>
             <p class="mt-3 text-sm text-brand-ink/72">
               Ideal for experienced nursing support roles. Requirements vary per employer.
             </p>
-            <div class="mt-5 flex items-center justify-between">
-              <p class="text-xs text-brand-ink/55 inline-flex items-center gap-1">
-                <i data-lucide="clock-3" class="h-4 w-4"></i> Updated upon inquiry
-              </p>
-              <a href="#inquire" class="inline-flex items-center gap-2 rounded-2xl bg-brand-dark px-4 py-2 text-xs font-extrabold text-brand-paper hover:opacity-95 transition">
-                Apply / Inquire <i data-lucide="arrow-right" class="h-4 w-4"></i>
-              </a>
-            </div>
           </div>
         </div>
 
         <!-- 2 -->
-        <div class="reveal lift rounded-3xl border border-[rgba(44,26,18,.12)] bg-white shadow-sm overflow-hidden" data-delay="120">
+        <div class="reveal lift job-card rounded-3xl border border-[rgba(44,26,18,.12)] bg-white shadow-sm overflow-hidden"
+             tabindex="0" data-delay="120"
+             data-role="Tile Worker / Tile Setter">
           <img class="h-44 w-full object-cover" src="images/Tile Worker.jpg" alt="Tile-worker">
           <div class="p-6">
-            <p class="text-xs font-semibold text-brand-ink/55">Greece / Middle East</p>
-            <h3 class="mt-1 text-lg font-extrabold text-brand-dark">Tile Worker / Tile Setter</h3>
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs font-semibold text-brand-ink/55">Greece / Middle East</p>
+                <h3 class="mt-1 text-lg font-extrabold text-brand-dark">Tile Worker / Tile Setter</h3>
+              </div>
+              <i data-lucide="pointer" class="h-5 w-5 text-brand-ink/35"></i>
+            </div>
             <p class="mt-3 text-sm text-brand-ink/72">
               Trade role for construction finishing. Experience and portfolio helps.
             </p>
-            <div class="mt-5 flex items-center justify-between">
-              <p class="text-xs text-brand-ink/55 inline-flex items-center gap-1">
-                <i data-lucide="badge-check" class="h-4 w-4"></i> Skilled category
-              </p>
-              <a href="#inquire" class="inline-flex items-center gap-2 rounded-2xl bg-brand-dark px-4 py-2 text-xs font-extrabold text-brand-paper hover:opacity-95 transition">
-                Apply / Inquire <i data-lucide="arrow-right" class="h-4 w-4"></i>
-              </a>
-            </div>
           </div>
         </div>
 
         <!-- 3 -->
-        <div class="reveal lift rounded-3xl border border-[rgba(44,26,18,.12)] bg-white shadow-sm overflow-hidden" data-delay="240">
+        <div class="reveal lift job-card rounded-3xl border border-[rgba(44,26,18,.12)] bg-white shadow-sm overflow-hidden"
+             tabindex="0" data-delay="240"
+             data-role="Building Electrician">
           <img class="h-44 w-full object-cover" src="images/Electrician.webp" alt="Electrician">
           <div class="p-6">
-            <p class="text-xs font-semibold text-brand-ink/55">Saudi</p>
-            <h3 class="mt-1 text-lg font-extrabold text-brand-dark">Building Electrician</h3>
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs font-semibold text-brand-ink/55">Saudi</p>
+                <h3 class="mt-1 text-lg font-extrabold text-brand-dark">Building Electrician</h3>
+              </div>
+              <i data-lucide="pointer" class="h-5 w-5 text-brand-ink/35"></i>
+            </div>
             <p class="mt-3 text-sm text-brand-ink/72">
               For wiring, troubleshooting, and electrical maintenance roles abroad.
             </p>
-            <div class="mt-5 flex items-center justify-between">
-              <p class="text-xs text-brand-ink/55 inline-flex items-center gap-1">
-                <i data-lucide="zap" class="h-4 w-4"></i> Technical skilled
-              </p>
-              <a href="#inquire" class="inline-flex items-center gap-2 rounded-2xl bg-brand-dark px-4 py-2 text-xs font-extrabold text-brand-paper hover:opacity-95 transition">
-                Apply / Inquire <i data-lucide="arrow-right" class="h-4 w-4"></i>
-              </a>
-            </div>
           </div>
         </div>
 
         <!-- 4 -->
-        <div class="reveal lift rounded-3xl border border-[rgba(44,26,18,.12)] bg-white shadow-sm overflow-hidden">
+        <div class="reveal lift job-card rounded-3xl border border-[rgba(44,26,18,.12)] bg-white shadow-sm overflow-hidden"
+             tabindex="0"
+             data-role="IT Support Technician">
           <img class="h-44 w-full object-cover" src="images/IT Support.jpg" alt="IT-support">
           <div class="p-6">
-            <p class="text-xs font-semibold text-brand-ink/55">Saudi / Timor Leste</p>
-            <h3 class="mt-1 text-lg font-extrabold text-brand-dark">IT Support Technician</h3>
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs font-semibold text-brand-ink/55">Saudi / Timor Leste</p>
+                <h3 class="mt-1 text-lg font-extrabold text-brand-dark">IT Support Technician</h3>
+              </div>
+              <i data-lucide="pointer" class="h-5 w-5 text-brand-ink/35"></i>
+            </div>
             <p class="mt-3 text-sm text-brand-ink/72">
               Helpdesk support, hardware/software troubleshooting, basic networking.
             </p>
-            <div class="mt-5 flex items-center justify-between">
-              <p class="text-xs text-brand-ink/55 inline-flex items-center gap-1">
-                <i data-lucide="laptop-minimal" class="h-4 w-4"></i> Professional
-              </p>
-              <a href="#inquire" class="inline-flex items-center gap-2 rounded-2xl bg-brand-dark px-4 py-2 text-xs font-extrabold text-brand-paper hover:opacity-95 transition">
-                Apply / Inquire <i data-lucide="arrow-right" class="h-4 w-4"></i>
-              </a>
-            </div>
           </div>
         </div>
 
         <!-- 5 -->
-        <div class="reveal lift rounded-3xl border border-[rgba(44,26,18,.12)] bg-white shadow-sm overflow-hidden" data-delay="120">
+        <div class="reveal lift job-card rounded-3xl border border-[rgba(44,26,18,.12)] bg-white shadow-sm overflow-hidden"
+             tabindex="0" data-delay="120"
+             data-role="Architectural Draftsman">
           <img class="h-44 w-full object-cover" src="images/Architectural Draftsman.webp" alt="Draftsman">
           <div class="p-6">
-            <p class="text-xs font-semibold text-brand-ink/55">Timor Leste</p>
-            <h3 class="mt-1 text-lg font-extrabold text-brand-dark">Architectural Draftsman</h3>
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs font-semibold text-brand-ink/55">Timor Leste</p>
+                <h3 class="mt-1 text-lg font-extrabold text-brand-dark">Architectural Draftsman</h3>
+              </div>
+              <i data-lucide="pointer" class="h-5 w-5 text-brand-ink/35"></i>
+            </div>
             <p class="mt-3 text-sm text-brand-ink/72">
               CAD drafting, plans preparation, and documentation support for projects.
             </p>
-            <div class="mt-5 flex items-center justify-between">
-              <p class="text-xs text-brand-ink/55 inline-flex items-center gap-1">
-                <i data-lucide="pencil-ruler" class="h-4 w-4"></i> Professional
-              </p>
-              <a href="#inquire" class="inline-flex items-center gap-2 rounded-2xl bg-brand-dark px-4 py-2 text-xs font-extrabold text-brand-paper hover:opacity-95 transition">
-                Apply / Inquire <i data-lucide="arrow-right" class="h-4 w-4"></i>
-              </a>
-            </div>
           </div>
         </div>
 
         <!-- 6 -->
-        <div class="reveal lift rounded-3xl border border-[rgba(44,26,18,.12)] bg-white shadow-sm overflow-hidden" data-delay="240">
+        <div class="reveal lift job-card rounded-3xl border border-[rgba(44,26,18,.12)] bg-white shadow-sm overflow-hidden"
+             tabindex="0" data-delay="240"
+             data-role="Purchase Representative">
           <img class="h-44 w-full object-cover" src="images/Purchase Representative.jpg" alt="Purchasing">
           <div class="p-6">
-            <p class="text-xs font-semibold text-brand-ink/55">Saudi</p>
-            <h3 class="mt-1 text-lg font-extrabold text-brand-dark">Purchase Representative</h3>
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs font-semibold text-brand-ink/55">Saudi</p>
+                <h3 class="mt-1 text-lg font-extrabold text-brand-dark">Purchase Representative</h3>
+              </div>
+              <i data-lucide="pointer" class="h-5 w-5 text-brand-ink/35"></i>
+            </div>
             <p class="mt-3 text-sm text-brand-ink/72">
               Vendor coordination, purchasing documentation, and inventory support.
             </p>
-            <div class="mt-5 flex items-center justify-between">
-              <p class="text-xs text-brand-ink/55 inline-flex items-center gap-1">
-                <i data-lucide="shopping-bag" class="h-4 w-4"></i> Professional
-              </p>
-              <a href="#inquire" class="inline-flex items-center gap-2 rounded-2xl bg-brand-dark px-4 py-2 text-xs font-extrabold text-brand-paper hover:opacity-95 transition">
-                Apply / Inquire <i data-lucide="arrow-right" class="h-4 w-4"></i>
-              </a>
-            </div>
           </div>
         </div>
       </div>
-
-      <div class="mt-10 reveal">
-        <div class="lift rounded-3xl border border-[rgba(44,26,18,.12)] bg-white p-6 shadow-sm">
-          <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div class="flex items-center gap-3">
-              <div class="h-11 w-11 rounded-2xl grid place-items-center"
-                   style="background: rgba(200,155,60,.16); color: rgb(var(--brand-dark));">
-                <i data-lucide="info" class="h-5 w-5"></i>
-              </div>
-              <div>
-                <p class="font-extrabold text-brand-dark">Have a Job Offer already?</p>
-                <p class="text-sm text-brand-ink/72">Send details and we’ll guide you for next steps.</p>
-              </div>
-            </div>
-            <a href="#inquire" class="inline-flex items-center justify-center gap-2 rounded-2xl btn-primary px-5 py-3 text-sm font-extrabold transition">
-              <i data-lucide="file-up" class="h-4 w-4"></i>
-              Submit Job Offer Inquiry
-            </a>
-          </div>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -867,8 +833,6 @@
         <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-brand-dark sm:text-4xl">
           Real journeys start with one inquiry.
         </h2>
-        <p class="mt-3 text-sm text-brand-ink/72 max-w-2xl mx-auto">
-        </p>
       </div>
 
       <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -917,7 +881,7 @@
     </div>
   </section>
 
-  <!-- CTA -->
+  <!-- CTA (removed extra Inquire button; keep Assistance only) -->
   <section class="relative overflow-hidden">
     <div class="absolute inset-0" style="background: linear-gradient(135deg, #2C1A12, #1f120c, #2C1A12);"></div>
     <div class="absolute inset-0 opacity-25 grid-soft"></div>
@@ -927,18 +891,14 @@
           <div>
             <p class="text-sm font-extrabold tracking-wider text-brand-soft/95">READY TO START?</p>
             <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-brand-paper sm:text-4xl">
-              Take the first step  inquire today.
+              Take the first step — inquire today.
             </h2>
             <p class="mt-3 max-w-2xl text-sm text-brand-paper/70">
             </p>
           </div>
           <div class="flex flex-col gap-3 sm:flex-row">
-            <a href="#inquire" class="inline-flex items-center justify-center gap-2 rounded-2xl btn-primary px-6 py-3 text-sm font-extrabold transition">
-              <i data-lucide="send" class="h-4 w-4"></i>
-              Inquire Now
-            </a>
             <a href="https://sys.yaramay.online/complaints" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-brand-paper/20 bg-brand-paper/10 px-6 py-3 text-sm font-extrabold text-brand-paper hover:bg-brand-paper/15 transition">
-              <i data-lucide="briefcase-business" class="h-4 w-4"></i>
+              <i data-lucide="life-buoy" class="h-4 w-4"></i>
               Request Assistance
             </a>
           </div>
@@ -947,7 +907,7 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- CONTACT (THIS is the single inquiry area on the page) -->
   <section id="inquire" class="py-16 sm:py-20">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="grid gap-10 lg:grid-cols-2">
@@ -1038,10 +998,6 @@
               <i data-lucide="send" class="h-4 w-4"></i>
               Send Inquiry
             </button>
-
-            <p class="mt-4 text-xs text-brand-ink/55">
-              
-            </p>
           </form>
         </div>
       </div>
@@ -1055,9 +1011,7 @@
         <div>
           <div class="flex items-center gap-3">
             <div class="h-11 w-11 rounded-2xl bg-brand-dark text-brand-paper grid place-items-center shadow-sm ring-1 ring-[rgba(200,155,60,.35)]">
-             <img src="images/Logo3.png"
-                alt="Logo"
-              class="h-7 w-auto object-contain">
+              <img src="images/Logo3.png" alt="Logo" class="h-7 w-auto object-contain">
             </div>
             <div class="leading-tight">
               <p class="text-sm font-extrabold text-brand-dark">JOSELINE INTERNATIONAL</p>
@@ -1095,6 +1049,13 @@
   <button id="toTop"
     class="rounded-2xl border border-[rgba(44,26,18,.14)] bg-white px-4 py-3 text-sm font-extrabold text-brand-dark shadow-sm hover:bg-brand-paper inline-flex items-center gap-2">
     <i data-lucide="arrow-up" class="h-4 w-4"></i> Top
+  </button>
+
+  <!-- ONE Inquiry icon button (the only inquiry entry point) -->
+  <button id="inquiryFab"
+    class="inline-flex h-12 w-12 items-center justify-center rounded-2xl btn-primary shadow-sm"
+    title="Open Inquiry Form" aria-label="Open Inquiry Form">
+    <i data-lucide="message-circle" class="h-5 w-5"></i>
   </button>
 
   <!-- Toast -->
@@ -1186,7 +1147,47 @@
     }
     toastClose.addEventListener('click', () => toast.classList.remove('show'));
 
-    // Save inquiry locally 
+    // ONE Inquiry icon behavior
+    const inquiryFab = document.getElementById('inquiryFab');
+    const inquirySection = document.getElementById('inquire');
+
+    const onScrollFab = () => {
+      if (window.scrollY > 180) inquiryFab.classList.add('show');
+      else inquiryFab.classList.remove('show');
+    };
+    window.addEventListener('scroll', onScrollFab);
+    onScrollFab();
+
+    inquiryFab.addEventListener('click', () => {
+      inquirySection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => document.getElementById('fullName')?.focus(), 450);
+    });
+
+    
+    function openInquiryWithRole(roleText) {
+      const roleSelect = document.getElementById('role');
+      if (roleSelect) {
+        const options = Array.from(roleSelect.options);
+        const match = options.find(o => o.text.trim() === roleText.trim());
+        if (match) roleSelect.value = match.value;
+      }
+      inquirySection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => document.getElementById('fullName')?.focus(), 450);
+    }
+
+    document.querySelectorAll('.job-card').forEach(card => {
+      const role = card.getAttribute('data-role');
+      const handler = () => role && openInquiryWithRole(role);
+      card.addEventListener('click', handler);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handler();
+        }
+      });
+    });
+
+    // Save inquiry locally
     document.getElementById('sendBtn').addEventListener('click', () => {
       const name = document.getElementById('fullName').value.trim();
       const email = document.getElementById('email').value.trim();
@@ -1215,4 +1216,3 @@
   </script>
 </body>
 </html>
-

@@ -135,21 +135,16 @@ document.getElementById('sendBtn').addEventListener('click', () => {
 });
 
 function openAboutModal() {
-    document.getElementById("aboutModal").classList.remove("hidden");
-    document.getElementById("aboutModal").classList.add("flex");
+    const modal = document.getElementById("aboutModal");
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
 }
 
 function closeAboutModal() {
-    document.getElementById("aboutModal").classList.remove("flex");
-    document.getElementById("aboutModal").classList.add("hidden");
+    const modal = document.getElementById("aboutModal");
+    modal.classList.remove("flex");
+    modal.classList.add("hidden");
 }
-
-// Close when clicking outside
-document.getElementById("aboutModal").addEventListener("click", function (e) {
-    if (e.target === this) {
-        closeAboutModal();
-    }
-});
 
 // Wait until DOM is loaded before adding event listener
 document.addEventListener("DOMContentLoaded", function () {

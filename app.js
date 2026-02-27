@@ -134,24 +134,40 @@ document.getElementById('sendBtn').addEventListener('click', () => {
     document.getElementById('inquiryForm').reset();
 });
 
-window.openAboutModal = function () {
-    const modal = document.getElementById("aboutModal");
-    if (!modal) return;
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
-};
-
-window.closeAboutModal = function () {
-    const modal = document.getElementById("aboutModal");
-    if (!modal) return;
-    modal.classList.remove("flex");
-    modal.classList.add("hidden");
-};
+// ABOUT MODAL (no inline onclick needed)
 document.addEventListener("DOMContentLoaded", () => {
-    const aboutBtn = document.getElementById("aboutBtn");
     const modal = document.getElementById("aboutModal");
+    const openBtn = document.getElementById("aboutBtn");
+    const closeX = document.getElementById("aboutCloseX");
+    const closeBtn = document.getElementById("aboutCloseBtn");
 
-    if (aboutBtn && modal) {
-        aboutBtn.addEventListener("click", openAboutModal);
-    }
+    if (!modal || !openBtn) return;
+
+    const open = () => {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+    };
+
+    const close = () => {
+        modal.classList.remove("flex");
+        modal.classList.add("hidden");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+    };
+
+    openBtn.addEventListener("click", open);
+    closeX?.addEventListener("click", close);
+    closeBtn?.addEventListener("click", close);
+
+    // click outside card to close
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) close();
+    });
+
+    // ESC to close
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
+    });
 });

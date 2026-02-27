@@ -1,0 +1,183 @@
+:root {
+      --brand-dark: 44 26 18;
+      --brand-gold: 200 155 60;
+      --brand-soft: 230 197 122;
+      --brand-paper: 248 246 242;
+      --brand-ink: 30 30 30;
+    }
+
+    /* (your existing styles unchanged below) */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .8s ease, transform .8s cubic-bezier(.2, .9, .2, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal.reveal-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes floaty {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .floaty {
+      animation: floaty 6s ease-in-out infinite;
+    }
+
+    .grid-soft {
+      background-image: radial-gradient(circle at 1px 1px, rgba(44, 26, 18, .10) 1px, transparent 0);
+      background-size: 22px 22px;
+    }
+
+    .map-bg {
+      background-image:
+        linear-gradient(to bottom right,
+          rgba(44, 26, 18, .92),
+          rgba(44, 26, 18, .72),
+          rgba(44, 26, 18, .92)),
+        url('https://files01.pna.gov.ph/category-list/2025/08/05/pbbm-in-india.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    section[id] {
+      scroll-margin-top: 96px;
+    }
+
+    .lift {
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
+    .lift:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 45px rgba(44, 26, 18, .12);
+      border-color: rgba(44, 26, 18, .18);
+    }
+
+    .glass {
+      background: rgba(248, 246, 242, .10);
+      border: 1px solid rgba(248, 246, 242, .16);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .navlink-active {
+      color: rgb(var(--brand-dark));
+      position: relative;
+    }
+
+    .navlink-active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -10px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgb(var(--brand-gold)), rgb(var(--brand-soft)));
+    }
+
+    .header-scrolled {
+      box-shadow: 0 12px 30px rgba(44, 26, 18, .10);
+      border-bottom-color: rgba(44, 26, 18, .18);
+      background: rgba(248, 246, 242, .92) !important;
+    }
+
+    .img-soft {
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(44, 26, 18, .12);
+      box-shadow: 0 20px 60px rgba(44, 26, 18, .10);
+    }
+
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      width: min(380px, calc(100% - 32px));
+      transform: translateY(16px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease;
+      z-index: 60;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    #toTop {
+      position: fixed;
+      right: 16px;
+      bottom: 156px;
+      z-index: 60;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+
+    #toTop.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    #inquiryFab {
+      position: fixed;
+      right: 16px;
+      bottom: 92px;
+      z-index: 60;
+      transform: translateY(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+
+    #inquiryFab.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .badge-premium {
+      background: linear-gradient(90deg, rgba(200, 155, 60, .22), rgba(230, 197, 122, .18));
+      border: 1px solid rgba(200, 155, 60, .28);
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, rgb(var(--brand-gold)), rgb(var(--brand-soft)));
+      color: rgb(var(--brand-dark));
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.03);
+    }
+
+    .ring-gold:focus {
+      box-shadow: 0 0 0 4px rgba(200, 155, 60, .22);
+      border-color: rgba(200, 155, 60, .55);
+    }
+
+    .job-card {
+      cursor: pointer;
+    }
+
+    .job-card:focus-within {
+      outline: 2px solid rgba(200, 155, 60, .45);
+      outline-offset: 4px;
+      border-radius: 24px;
+    }

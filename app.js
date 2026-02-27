@@ -133,3 +133,20 @@ lucide.createIcons();
       showToast(`Thanks, ${name}! Your inquiry was saved locally.`);
       document.getElementById('inquiryForm').reset();
     });
+    
+  function openAboutModal() {
+    document.getElementById("aboutModal").classList.remove("hidden");
+    document.getElementById("aboutModal").classList.add("flex");
+  }
+
+  function closeAboutModal() {
+    document.getElementById("aboutModal").classList.remove("flex");
+    document.getElementById("aboutModal").classList.add("hidden");
+  }
+
+  // Close when clicking outside
+  document.getElementById("aboutModal").addEventListener("click", function(e){
+    if(e.target === this){
+      closeAboutModal();
+    }
+  });

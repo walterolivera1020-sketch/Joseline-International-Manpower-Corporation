@@ -134,26 +134,24 @@ document.getElementById('sendBtn').addEventListener('click', () => {
     document.getElementById('inquiryForm').reset();
 });
 
-function openAboutModal() {
+window.openAboutModal = function () {
     const modal = document.getElementById("aboutModal");
+    if (!modal) return;
     modal.classList.remove("hidden");
     modal.classList.add("flex");
-}
+};
 
-function closeAboutModal() {
+window.closeAboutModal = function () {
     const modal = document.getElementById("aboutModal");
+    if (!modal) return;
     modal.classList.remove("flex");
     modal.classList.add("hidden");
-}
-
-// Wait until DOM is loaded before adding event listener
-document.addEventListener("DOMContentLoaded", function () {
+};
+document.addEventListener("DOMContentLoaded", () => {
+    const aboutBtn = document.getElementById("aboutBtn");
     const modal = document.getElementById("aboutModal");
-    if (modal) {
-        modal.addEventListener("click", function (e) {
-            if (e.target === this) {
-                closeAboutModal();
-            }
-        });
+
+    if (aboutBtn && modal) {
+        aboutBtn.addEventListener("click", openAboutModal);
     }
 });

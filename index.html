@@ -857,9 +857,13 @@
   </section>
 
   <!-- CONTACT -->
+  <!-- ✅ EmailJS SDK (put this near the end of <body> or inside <head>) -->
+
+
   <section id="inquire" class="py-16 sm:py-20">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="grid gap-10 lg:grid-cols-2">
+        <!-- LEFT SIDE (unchanged) -->
         <div class="reveal">
           <p class="text-sm font-extrabold tracking-wider text-brand-gold">CONTACT</p>
           <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-brand-dark sm:text-4xl">
@@ -903,23 +907,27 @@
           </div>
         </div>
 
+        <!-- RIGHT SIDE (FORM) -->
         <div class="reveal" data-delay="120">
           <form id="inquiryForm"
             class="lift rounded-3xl border border-[rgba(44,26,18,.12)] bg-white p-6 sm:p-7 shadow-sm">
+
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
                 <label class="text-xs font-extrabold text-brand-dark">Full Name</label>
-                <input id="fullName" type="text" placeholder="Your name"
+                <input id="fullName" name="full_name" type="text" placeholder="Your name" required
                   class="mt-2 w-full rounded-2xl border border-[rgba(44,26,18,.14)] bg-white px-4 py-3 text-sm outline-none ring-gold">
               </div>
+
               <div>
                 <label class="text-xs font-extrabold text-brand-dark">Email</label>
-                <input id="email" type="email" placeholder="you@gmail.com"
+                <input id="email" name="user_email" type="email" placeholder="you@gmail.com" required
                   class="mt-2 w-full rounded-2xl border border-[rgba(44,26,18,.14)] bg-white px-4 py-3 text-sm outline-none ring-gold">
               </div>
+
               <div>
                 <label class="text-xs font-extrabold text-brand-dark">Preferred Role</label>
-                <select id="role"
+                <select id="role" name="preferred_role"
                   class="mt-2 w-full rounded-2xl border border-[rgba(44,26,18,.14)] bg-white px-4 py-3 text-sm outline-none ring-gold">
                   <option>Female Nursing Specialist (Saudi)</option>
                   <option>Tile Worker / Tile Setter</option>
@@ -930,9 +938,10 @@
                   <option>Domestic Helper (Saudi)</option>
                 </select>
               </div>
+
               <div>
                 <label class="text-xs font-extrabold text-brand-dark">Destination</label>
-                <select id="destination"
+                <select id="destination" name="destination"
                   class="mt-2 w-full rounded-2xl border border-[rgba(44,26,18,.14)] bg-white px-4 py-3 text-sm outline-none ring-gold">
                   <option>Saudi</option>
                   <option>Greece</option>
@@ -943,12 +952,16 @@
 
             <div class="mt-4">
               <label class="text-xs font-extrabold text-brand-dark">Message</label>
-              <textarea id="message" rows="5"
+              <textarea id="message" name="message" rows="5" required
                 placeholder="Tell us your experience, documents ready, and preferred timeline..."
                 class="mt-2 w-full rounded-2xl border border-[rgba(44,26,18,.14)] bg-white px-4 py-3 text-sm outline-none ring-gold"></textarea>
             </div>
 
-            <button id="sendBtn" type="button"
+            <!-- ✅ status message -->
+            <p id="formStatus" class="mt-4 text-sm font-semibold hidden"></p>
+
+            <!-- ✅ submit button -->
+            <button id="sendBtn" type="submit"
               class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-dark px-5 py-3 text-sm font-extrabold text-brand-paper hover:opacity-95 transition">
               <i data-lucide="send" class="h-4 w-4"></i>
               Send Inquiry

@@ -6,9 +6,7 @@
   --brand-ink: 30 30 30;
 }
 
-/* ==========================
-   Base / Safety
-   ========================== */
+
 * { box-sizing: border-box; }
 html, body {
   width: 100%;
@@ -25,14 +23,10 @@ img, video, canvas, svg {
   word-break: break-word;
 }
 
-/* ==========================
-   Scroll offset
-   ========================== */
+
 section[id] { scroll-margin-top: 96px; }
 
-/* ==========================
-   Reveal animation
-   ========================== */
+
 .reveal {
   opacity: 0;
   transform: translateY(18px);
@@ -44,26 +38,20 @@ section[id] { scroll-margin-top: 96px; }
   transform: translateY(0);
 }
 
-/* ==========================
-   Floating card
-   ========================== */
+
 @keyframes floaty {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
 .floaty { animation: floaty 6s ease-in-out infinite; }
 
-/* ==========================
-   Background grid
-   ========================== */
+
 .grid-soft {
   background-image: radial-gradient(circle at 1px 1px, rgba(44, 26, 18, .10) 1px, transparent 0);
   background-size: 22px 22px;
 }
 
-/* ==========================
-   Hero map background
-   ========================== */
+
 .map-bg {
   background-image:
     linear-gradient(to bottom right,
@@ -75,9 +63,7 @@ section[id] { scroll-margin-top: 96px; }
   background-position: center;
 }
 
-/* ==========================
-   Hover lift
-   ========================== */
+
 .lift {
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
@@ -87,9 +73,7 @@ section[id] { scroll-margin-top: 96px; }
   border-color: rgba(44, 26, 18, .18);
 }
 
-/* ==========================
-   Glass card
-   ========================== */
+
 .glass {
   background: rgba(248, 246, 242, .10);
   border: 1px solid rgba(248, 246, 242, .16);
@@ -97,9 +81,7 @@ section[id] { scroll-margin-top: 96px; }
   -webkit-backdrop-filter: blur(10px);
 }
 
-/* ==========================
-   Active nav link underline
-   ========================== */
+
 .navlink-active {
   color: rgb(var(--brand-dark));
   position: relative;
@@ -115,18 +97,14 @@ section[id] { scroll-margin-top: 96px; }
   background: linear-gradient(90deg, rgb(var(--brand-gold)), rgb(var(--brand-soft)));
 }
 
-/* ==========================
-   Sticky header scrolled look
-   ========================== */
+
 .header-scrolled {
   box-shadow: 0 12px 30px rgba(44, 26, 18, .10);
   border-bottom-color: rgba(44, 26, 18, .18);
   background: rgba(248, 246, 242, .92) !important;
 }
 
-/* ==========================
-   Soft image wrapper
-   ========================== */
+
 .img-soft {
   border-radius: 24px;
   overflow: hidden;
@@ -134,9 +112,7 @@ section[id] { scroll-margin-top: 96px; }
   box-shadow: 0 20px 60px rgba(44, 26, 18, .10);
 }
 
-/* ==========================
-   Toast
-   ========================== */
+
 .toast {
   position: fixed;
   right: 16px;
@@ -154,9 +130,7 @@ section[id] { scroll-margin-top: 96px; }
   pointer-events: auto;
 }
 
-/* ==========================
-   Back to top
-   ========================== */
+
 #toTop {
   position: fixed;
   right: 16px;
@@ -173,9 +147,7 @@ section[id] { scroll-margin-top: 96px; }
   pointer-events: auto;
 }
 
-/* ==========================
-   Inquiry floating button
-   ========================== */
+
 #inquiryFab {
   position: fixed;
   right: 16px;
@@ -192,9 +164,7 @@ section[id] { scroll-margin-top: 96px; }
   pointer-events: auto;
 }
 
-/* ==========================
-   Badge / Buttons
-   ========================== */
+
 .badge-premium {
   background: linear-gradient(90deg, rgba(200, 155, 60, .22), rgba(230, 197, 122, .18));
   border: 1px solid rgba(200, 155, 60, .28);
@@ -205,17 +175,13 @@ section[id] { scroll-margin-top: 96px; }
 }
 .btn-primary:hover { filter: brightness(1.03); }
 
-/* ==========================
-   Focus ring for inputs
-   ========================== */
+
 .ring-gold:focus {
   box-shadow: 0 0 0 4px rgba(200, 155, 60, .22);
   border-color: rgba(200, 155, 60, .55);
 }
 
-/* ==========================
-   Job cards
-   ========================== */
+
 .job-card { cursor: pointer; }
 .job-card:focus-within {
   outline: 2px solid rgba(200, 155, 60, .45);
@@ -223,20 +189,18 @@ section[id] { scroll-margin-top: 96px; }
   border-radius: 24px;
 }
 
-/* ==========================
-   ✅ RESPONSIVE FIX PACK
-   ========================== */
 
-/* Better anchor offset on small screens */
+
+
 section[id] { scroll-margin-top: 88px; }
 @media (min-width: 768px) {
   section[id] { scroll-margin-top: 96px; }
 }
 
-/* Mobile hero background */
+
 .map-bg { background-attachment: scroll; }
 
-/* Safe-area support (iPhone notch) */
+
 .toast {
   bottom: calc(16px + env(safe-area-inset-bottom));
 }
@@ -247,20 +211,20 @@ section[id] { scroll-margin-top: 88px; }
   bottom: calc(156px + env(safe-area-inset-bottom));
 }
 
-/* Job card images consistent across devices */
+
 .job-card img {
   height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
-/* Modal always usable on small screens */
+
 #aboutModal [role="dialog"] {
   width: min(920px, 100%);
   max-height: 92vh;
 }
 
-/* Tailwind class escape: max-h-[65vh] */
+
 #aboutModal .max-h-\[65vh\] {
   max-height: 62vh;
 }
@@ -275,12 +239,12 @@ section[id] { scroll-margin-top: 88px; }
   }
 }
 
-/* Prevent iOS zoom on input focus */
+
 input, select, textarea {
   font-size: 16px;
 }
 
-/* If screen is short, hide top button to avoid overlap */
+
 @media (max-height: 700px) {
   #toTop { display: none; }
 }

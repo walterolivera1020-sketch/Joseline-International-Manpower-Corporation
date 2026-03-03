@@ -1,11 +1,11 @@
-// Icons
+
 lucide.createIcons();
 
-// Year
+
 const yearEl = document.getElementById("year");
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-// Mobile menu
+
 const mobileBtn = document.getElementById("mobileBtn");
 const mobileMenu = document.getElementById("mobileMenu");
 
@@ -14,7 +14,7 @@ document.querySelectorAll(".mnav").forEach((a) =>
   a.addEventListener("click", () => mobileMenu?.classList.add("hidden"))
 );
 
-// Reveal
+
 const revealEls = document.querySelectorAll(".reveal");
 const io = new IntersectionObserver(
   (entries) => {
@@ -31,7 +31,7 @@ const io = new IntersectionObserver(
 );
 revealEls.forEach((el) => io.observe(el));
 
-// Header scroll
+
 const header = document.getElementById("siteHeader");
 const onScrollHeader = () => {
   if (!header) return;
@@ -41,7 +41,7 @@ const onScrollHeader = () => {
 window.addEventListener("scroll", onScrollHeader);
 onScrollHeader();
 
-// Active nav link highlight (desktop)
+
 const navLinks = Array.from(document.querySelectorAll("#deskNav .navlink"));
 const sections = navLinks
   .map((a) => document.querySelector(a.getAttribute("href")))
@@ -61,7 +61,7 @@ const navObserver = new IntersectionObserver(
 );
 sections.forEach((sec) => navObserver.observe(sec));
 
-// Back to top
+
 const toTop = document.getElementById("toTop");
 const onScrollTopBtn = () => {
   if (!toTop) return;
@@ -75,7 +75,7 @@ toTop?.addEventListener("click", () =>
   window.scrollTo({ top: 0, behavior: "smooth" })
 );
 
-// Toast
+
 const toast = document.getElementById("toast");
 const toastMsg = document.getElementById("toastMsg");
 const toastClose = document.getElementById("toastClose");
@@ -88,7 +88,7 @@ function showToast(message) {
 }
 toastClose?.addEventListener("click", () => toast?.classList.remove("show"));
 
-// Inquiry FAB
+
 const inquiryFab = document.getElementById("inquiryFab");
 const inquirySection = document.getElementById("inquire");
 
@@ -105,7 +105,7 @@ inquiryFab?.addEventListener("click", () => {
   setTimeout(() => document.getElementById("fullName")?.focus(), 450);
 });
 
-// Job cards -> open inquiry with role selected
+
 function openInquiryWithRole(roleText) {
   const roleSelect = document.getElementById("role");
   if (roleSelect) {
@@ -130,7 +130,7 @@ document.querySelectorAll(".job-card").forEach((card) => {
   });
 });
 
-// About modal
+
 document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("aboutModal");
   const openBtn = document.getElementById("aboutBtn");
@@ -166,13 +166,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-/* ==========================
-   EMAILJS FORM
-   ========================== */
-const EMAILJS_PUBLIC_KEY = "WiAtqNeHvWpevtr-a";     // public key is OK to be in frontend
+
+const EMAILJS_PUBLIC_KEY = "WiAtqNeHvWpevtr-a";    
 const EMAILJS_SERVICE_ID = "service_jyuebhq";
 const EMAILJS_TEMPLATE_ADMIN = "template_3zg524e";
-const EMAILJS_TEMPLATE_REPLY = ""; // optional auto-reply template id
+const EMAILJS_TEMPLATE_REPLY = ""; 
 
 emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 

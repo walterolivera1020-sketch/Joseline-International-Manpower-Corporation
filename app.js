@@ -1,17 +1,14 @@
-
 lucide.createIcons();
 
 
-const yearEl = document.getElementById("year");
-if (yearEl) yearEl.textContent = new Date().getFullYear();
+document.getElementById("year").textContent = new Date().getFullYear();
 
 
 const mobileBtn = document.getElementById("mobileBtn");
 const mobileMenu = document.getElementById("mobileMenu");
-
-mobileBtn?.addEventListener("click", () => mobileMenu?.classList.toggle("hidden"));
+mobileBtn?.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
 document.querySelectorAll(".mnav").forEach((a) =>
-  a.addEventListener("click", () => mobileMenu?.classList.add("hidden"))
+  a.addEventListener("click", () => mobileMenu.classList.add("hidden"))
 );
 
 
@@ -34,7 +31,6 @@ revealEls.forEach((el) => io.observe(el));
 
 const header = document.getElementById("siteHeader");
 const onScrollHeader = () => {
-  if (!header) return;
   if (window.scrollY > 12) header.classList.add("header-scrolled");
   else header.classList.remove("header-scrolled");
 };
@@ -64,14 +60,12 @@ sections.forEach((sec) => navObserver.observe(sec));
 
 const toTop = document.getElementById("toTop");
 const onScrollTopBtn = () => {
-  if (!toTop) return;
   if (window.scrollY > 600) toTop.classList.add("show");
   else toTop.classList.remove("show");
 };
 window.addEventListener("scroll", onScrollTopBtn);
 onScrollTopBtn();
-
-toTop?.addEventListener("click", () =>
+toTop.addEventListener("click", () =>
   window.scrollTo({ top: 0, behavior: "smooth" })
 );
 
@@ -81,19 +75,17 @@ const toastMsg = document.getElementById("toastMsg");
 const toastClose = document.getElementById("toastClose");
 
 function showToast(message) {
-  if (!toast || !toastMsg) return;
   toastMsg.textContent = message;
   toast.classList.add("show");
   setTimeout(() => toast.classList.remove("show"), 4500);
 }
-toastClose?.addEventListener("click", () => toast?.classList.remove("show"));
+toastClose?.addEventListener("click", () => toast.classList.remove("show"));
 
 
 const inquiryFab = document.getElementById("inquiryFab");
 const inquirySection = document.getElementById("inquire");
 
 const onScrollFab = () => {
-  if (!inquiryFab) return;
   if (window.scrollY > 180) inquiryFab.classList.add("show");
   else inquiryFab.classList.remove("show");
 };
@@ -120,7 +112,6 @@ function openInquiryWithRole(roleText) {
 document.querySelectorAll(".job-card").forEach((card) => {
   const role = card.getAttribute("data-role");
   const handler = () => role && openInquiryWithRole(role);
-
   card.addEventListener("click", handler);
   card.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -167,12 +158,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-const EMAILJS_PUBLIC_KEY = "WiAtqNeHvWpevtr-a";    
+
+const EMAILJS_PUBLIC_KEY = "WiAtqNeHvWpevtr-a";
+
+
 const EMAILJS_SERVICE_ID = "service_jyuebhq";
+
+
 const EMAILJS_TEMPLATE_ADMIN = "template_3zg524e";
+
+
 const EMAILJS_TEMPLATE_REPLY = ""; 
 
+
 emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
 
 const form = document.getElementById("inquiryForm");
 const sendBtn = document.getElementById("sendBtn");
@@ -199,6 +199,8 @@ function setLoading(isLoading) {
 
 form?.addEventListener("submit", async (e) => {
   e.preventDefault();
+
+
   if (sendBtn?.disabled) return;
 
   const payload = {
@@ -219,8 +221,10 @@ form?.addEventListener("submit", async (e) => {
   setStatus("Sending your inquiry…", true);
 
   try {
+   
     await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ADMIN, payload);
 
+    
     if (EMAILJS_TEMPLATE_REPLY && EMAILJS_TEMPLATE_REPLY.startsWith("template_")) {
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_REPLY, payload);
     }
@@ -230,6 +234,8 @@ form?.addEventListener("submit", async (e) => {
     form.reset();
   } catch (err) {
     console.error("EmailJS error FULL:", err);
+
+    
     const details = err?.text || err?.message || "Unknown error";
     setStatus(`❌ Email failed: ${details}`, false);
   } finally {

@@ -1,10 +1,10 @@
-// Icons
+
 lucide.createIcons();
 
-// Year
+
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// Mobile menu
+
 const mobileBtn = document.getElementById("mobileBtn");
 const mobileMenu = document.getElementById("mobileMenu");
 mobileBtn?.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
@@ -12,7 +12,7 @@ document.querySelectorAll(".mnav").forEach((a) =>
   a.addEventListener("click", () => mobileMenu.classList.add("hidden"))
 );
 
-// Reveal
+
 const revealEls = document.querySelectorAll(".reveal");
 const io = new IntersectionObserver(
   (entries) => {
@@ -29,7 +29,7 @@ const io = new IntersectionObserver(
 );
 revealEls.forEach((el) => io.observe(el));
 
-// Header scroll
+
 const header = document.getElementById("siteHeader");
 const onScrollHeader = () => {
   if (window.scrollY > 12) header.classList.add("header-scrolled");
@@ -38,7 +38,7 @@ const onScrollHeader = () => {
 window.addEventListener("scroll", onScrollHeader);
 onScrollHeader();
 
-// Active nav
+
 const navLinks = Array.from(document.querySelectorAll("#deskNav .navlink"));
 const sections = navLinks
   .map((a) => document.querySelector(a.getAttribute("href")))
@@ -58,7 +58,7 @@ const navObserver = new IntersectionObserver(
 );
 sections.forEach((sec) => navObserver.observe(sec));
 
-// Back to top
+
 const toTop = document.getElementById("toTop");
 const onScrollTopBtn = () => {
   if (window.scrollY > 600) toTop.classList.add("show");
@@ -70,7 +70,7 @@ toTop.addEventListener("click", () =>
   window.scrollTo({ top: 0, behavior: "smooth" })
 );
 
-// Toast
+
 const toast = document.getElementById("toast");
 const toastMsg = document.getElementById("toastMsg");
 const toastClose = document.getElementById("toastClose");
@@ -82,7 +82,7 @@ function showToast(message) {
 }
 toastClose?.addEventListener("click", () => toast.classList.remove("show"));
 
-// Inquiry FAB
+
 const inquiryFab = document.getElementById("inquiryFab");
 const inquirySection = document.getElementById("inquire");
 
@@ -98,7 +98,7 @@ inquiryFab?.addEventListener("click", () => {
   setTimeout(() => document.getElementById("fullName")?.focus(), 450);
 });
 
-// Job card -> auto select role
+
 function openInquiryWithRole(roleText) {
   const roleSelect = document.getElementById("role");
   if (roleSelect) {
@@ -122,7 +122,7 @@ document.querySelectorAll(".job-card").forEach((card) => {
   });
 });
 
-// About modal
+
 document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("aboutModal");
   const openBtn = document.getElementById("aboutBtn");
@@ -158,14 +158,29 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// ✅ FORM SEND (ONLY ONE SENDER)
-const WORKER_URL = "https://inquiry-worker.walterolivera1020.workers.dev";
+
+
+const EMAILJS_PUBLIC_KEY = "WiAtqNeHvWpevtr-a";
+
+
+const EMAILJS_SERVICE_ID = "service_jyuebhq";
+
+
+const EMAILJS_TEMPLATE_ADMIN = "template_3zg524e";
+
+
+const EMAILJS_TEMPLATE_REPLY = ""; 
+
+
+emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
 
 const form = document.getElementById("inquiryForm");
 const sendBtn = document.getElementById("sendBtn");
 const statusEl = document.getElementById("formStatus");
 
 function setStatus(message, ok = true) {
+  if (!statusEl) return;
   statusEl.textContent = message;
   statusEl.classList.remove("hidden");
   statusEl.classList.toggle("text-green-700", ok);
@@ -173,6 +188,7 @@ function setStatus(message, ok = true) {
 }
 
 function setLoading(isLoading) {
+  if (!sendBtn) return;
   sendBtn.disabled = isLoading;
   sendBtn.classList.toggle("opacity-70", isLoading);
   sendBtn.classList.toggle("cursor-not-allowed", isLoading);
@@ -185,14 +201,20 @@ function setLoading(isLoading) {
 form?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const fullName = document.getElementById("fullName").value.trim();
-  const userEmail = document.getElementById("email").value.trim();
-  const role = document.getElementById("role").value.trim();
-  const destination = document.getElementById("destination").value.trim();
-  const message = document.getElementById("message").value.trim();
+  
+  if (sendBtn?.disabled) return;
 
-  if (!fullName || !userEmail || !message) {
-    setStatus("Please complete Full Name, Email, and Message.", false);
+  const payload = {
+    full_name: document.getElementById("fullName")?.value?.trim(),
+    user_email: document.getElementById("email")?.value?.trim(),
+    preferred_role: document.getElementById("role")?.value?.trim(),
+    destination: document.getElementById("destination")?.value?.trim(),
+    message: document.getElementById("message")?.value?.trim(),
+    year: new Date().getFullYear(),
+  };
+
+  if (!payload.full_name || !payload.user_email || !payload.message) {
+    setStatus("❌ Please complete Full Name, Email, and Message.", false);
     return;
   }
 
@@ -200,37 +222,23 @@ form?.addEventListener("submit", async (e) => {
   setStatus("Sending your inquiry…", true);
 
   try {
-    const response = await fetch(WORKER_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        full_name: fullName,
-        user_email: userEmail,
-        preferred_role: role,
-        destination,
-        message,
-      }),
-    });
+  
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ADMIN, payload);
 
-    const text = await response.text();
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch {
-      data = { ok: false, message: text };
+    
+    if (EMAILJS_TEMPLATE_REPLY && EMAILJS_TEMPLATE_REPLY.startsWith("template_")) {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_REPLY, payload);
     }
 
-    if (response.ok && data.ok) {
-      setStatus("✅ Inquiry sent successfully!", true);
-      showToast(`Thanks, ${fullName}! Your inquiry was sent.`);
-      form.reset();
-    } else {
-      console.log("Worker error:", data);
-      setStatus("❌ Failed to send. Please try again.", false);
-    }
+    setStatus("✅ Inquiry sent! Please check your email for confirmation.", true);
+    showToast(`Thanks, ${payload.full_name}! Your inquiry was sent.`);
+    form.reset();
   } catch (err) {
-    console.error(err);
-    setStatus("❌ Network error. Please try again.", false);
+    console.error("EmailJS error FULL:", err);
+
+  
+    const details = err?.text || err?.message || "Unknown error";
+    setStatus(`❌ Email failed: ${details}`, false);
   } finally {
     setLoading(false);
   }

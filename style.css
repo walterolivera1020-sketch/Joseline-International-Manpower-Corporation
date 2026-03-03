@@ -1,183 +1,286 @@
 :root {
-      --brand-dark: 44 26 18;
-      --brand-gold: 200 155 60;
-      --brand-soft: 230 197 122;
-      --brand-paper: 248 246 242;
-      --brand-ink: 30 30 30;
-    }
+  --brand-dark: 44 26 18;
+  --brand-gold: 200 155 60;
+  --brand-soft: 230 197 122;
+  --brand-paper: 248 246 242;
+  --brand-ink: 30 30 30;
+}
 
-    /* (your existing styles unchanged below) */
-    .reveal {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity .8s ease, transform .8s cubic-bezier(.2, .9, .2, 1);
-      will-change: opacity, transform;
-    }
+/* ==========================
+   Base / Safety
+   ========================== */
+* { box-sizing: border-box; }
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+* {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
 
-    .reveal.reveal-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+/* ==========================
+   Scroll offset
+   ========================== */
+section[id] { scroll-margin-top: 96px; }
 
-    @keyframes floaty {
+/* ==========================
+   Reveal animation
+   ========================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .8s ease, transform .8s cubic-bezier(.2, .9, .2, 1);
+  will-change: opacity, transform;
+}
+.reveal.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-      0%,
-      100% {
-        transform: translateY(0);
-      }
+/* ==========================
+   Floating card
+   ========================== */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.floaty { animation: floaty 6s ease-in-out infinite; }
 
-      50% {
-        transform: translateY(-8px);
-      }
-    }
+/* ==========================
+   Background grid
+   ========================== */
+.grid-soft {
+  background-image: radial-gradient(circle at 1px 1px, rgba(44, 26, 18, .10) 1px, transparent 0);
+  background-size: 22px 22px;
+}
 
-    .floaty {
-      animation: floaty 6s ease-in-out infinite;
-    }
+/* ==========================
+   Hero map background
+   ========================== */
+.map-bg {
+  background-image:
+    linear-gradient(to bottom right,
+      rgba(44, 26, 18, .92),
+      rgba(44, 26, 18, .72),
+      rgba(44, 26, 18, .92)),
+    url('https://files01.pna.gov.ph/category-list/2025/08/05/pbbm-in-india.jpg');
+  background-size: cover;
+  background-position: center;
+}
 
-    .grid-soft {
-      background-image: radial-gradient(circle at 1px 1px, rgba(44, 26, 18, .10) 1px, transparent 0);
-      background-size: 22px 22px;
-    }
+/* ==========================
+   Hover lift
+   ========================== */
+.lift {
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 45px rgba(44, 26, 18, .12);
+  border-color: rgba(44, 26, 18, .18);
+}
 
-    .map-bg {
-      background-image:
-        linear-gradient(to bottom right,
-          rgba(44, 26, 18, .92),
-          rgba(44, 26, 18, .72),
-          rgba(44, 26, 18, .92)),
-        url('https://files01.pna.gov.ph/category-list/2025/08/05/pbbm-in-india.jpg');
-      background-size: cover;
-      background-position: center;
-    }
+/* ==========================
+   Glass card
+   ========================== */
+.glass {
+  background: rgba(248, 246, 242, .10);
+  border: 1px solid rgba(248, 246, 242, .16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
 
-    section[id] {
-      scroll-margin-top: 96px;
-    }
+/* ==========================
+   Active nav link underline
+   ========================== */
+.navlink-active {
+  color: rgb(var(--brand-dark));
+  position: relative;
+}
+.navlink-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgb(var(--brand-gold)), rgb(var(--brand-soft)));
+}
 
-    .lift {
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-    }
+/* ==========================
+   Sticky header scrolled look
+   ========================== */
+.header-scrolled {
+  box-shadow: 0 12px 30px rgba(44, 26, 18, .10);
+  border-bottom-color: rgba(44, 26, 18, .18);
+  background: rgba(248, 246, 242, .92) !important;
+}
 
-    .lift:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 18px 45px rgba(44, 26, 18, .12);
-      border-color: rgba(44, 26, 18, .18);
-    }
+/* ==========================
+   Soft image wrapper
+   ========================== */
+.img-soft {
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(44, 26, 18, .12);
+  box-shadow: 0 20px 60px rgba(44, 26, 18, .10);
+}
 
-    .glass {
-      background: rgba(248, 246, 242, .10);
-      border: 1px solid rgba(248, 246, 242, .16);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
+/* ==========================
+   Toast
+   ========================== */
+.toast {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: min(380px, calc(100% - 32px));
+  transform: translateY(16px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+  z-index: 60;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
 
-    .navlink-active {
-      color: rgb(var(--brand-dark));
-      position: relative;
-    }
+/* ==========================
+   Back to top
+   ========================== */
+#toTop {
+  position: fixed;
+  right: 16px;
+  bottom: 156px;
+  z-index: 60;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+}
+#toTop.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
 
-    .navlink-active::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -10px;
-      height: 2px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgb(var(--brand-gold)), rgb(var(--brand-soft)));
-    }
+/* ==========================
+   Inquiry floating button
+   ========================== */
+#inquiryFab {
+  position: fixed;
+  right: 16px;
+  bottom: 92px;
+  z-index: 60;
+  transform: translateY(12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+}
+#inquiryFab.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
 
-    .header-scrolled {
-      box-shadow: 0 12px 30px rgba(44, 26, 18, .10);
-      border-bottom-color: rgba(44, 26, 18, .18);
-      background: rgba(248, 246, 242, .92) !important;
-    }
+/* ==========================
+   Badge / Buttons
+   ========================== */
+.badge-premium {
+  background: linear-gradient(90deg, rgba(200, 155, 60, .22), rgba(230, 197, 122, .18));
+  border: 1px solid rgba(200, 155, 60, .28);
+}
+.btn-primary {
+  background: linear-gradient(90deg, rgb(var(--brand-gold)), rgb(var(--brand-soft)));
+  color: rgb(var(--brand-dark));
+}
+.btn-primary:hover { filter: brightness(1.03); }
 
-    .img-soft {
-      border-radius: 24px;
-      overflow: hidden;
-      border: 1px solid rgba(44, 26, 18, .12);
-      box-shadow: 0 20px 60px rgba(44, 26, 18, .10);
-    }
+/* ==========================
+   Focus ring for inputs
+   ========================== */
+.ring-gold:focus {
+  box-shadow: 0 0 0 4px rgba(200, 155, 60, .22);
+  border-color: rgba(200, 155, 60, .55);
+}
 
-    .toast {
-      position: fixed;
-      right: 16px;
-      bottom: 16px;
-      width: min(380px, calc(100% - 32px));
-      transform: translateY(16px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s ease, transform .25s ease;
-      z-index: 60;
-    }
+/* ==========================
+   Job cards
+   ========================== */
+.job-card { cursor: pointer; }
+.job-card:focus-within {
+  outline: 2px solid rgba(200, 155, 60, .45);
+  outline-offset: 4px;
+  border-radius: 24px;
+}
 
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
+/* ==========================
+   ✅ RESPONSIVE FIX PACK
+   ========================== */
 
-    #toTop {
-      position: fixed;
-      right: 16px;
-      bottom: 156px;
-      z-index: 60;
-      opacity: 0;
-      transform: translateY(12px);
-      pointer-events: none;
-      transition: opacity .25s ease, transform .25s ease;
-    }
+/* Better anchor offset on small screens */
+section[id] { scroll-margin-top: 88px; }
+@media (min-width: 768px) {
+  section[id] { scroll-margin-top: 96px; }
+}
 
-    #toTop.show {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
+/* Mobile hero background */
+.map-bg { background-attachment: scroll; }
 
-    #inquiryFab {
-      position: fixed;
-      right: 16px;
-      bottom: 92px;
-      z-index: 60;
-      transform: translateY(12px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s ease, transform .25s ease;
-    }
+/* Safe-area support (iPhone notch) */
+.toast {
+  bottom: calc(16px + env(safe-area-inset-bottom));
+}
+#inquiryFab {
+  bottom: calc(92px + env(safe-area-inset-bottom));
+}
+#toTop {
+  bottom: calc(156px + env(safe-area-inset-bottom));
+}
 
-    #inquiryFab.show {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
+/* Job card images consistent across devices */
+.job-card img {
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
 
-    .badge-premium {
-      background: linear-gradient(90deg, rgba(200, 155, 60, .22), rgba(230, 197, 122, .18));
-      border: 1px solid rgba(200, 155, 60, .28);
-    }
+/* Modal always usable on small screens */
+#aboutModal [role="dialog"] {
+  width: min(920px, 100%);
+  max-height: 92vh;
+}
 
-    .btn-primary {
-      background: linear-gradient(90deg, rgb(var(--brand-gold)), rgb(var(--brand-soft)));
-      color: rgb(var(--brand-dark));
-    }
+/* Tailwind class escape: max-h-[65vh] */
+#aboutModal .max-h-\[65vh\] {
+  max-height: 62vh;
+}
 
-    .btn-primary:hover {
-      filter: brightness(1.03);
-    }
+@media (max-width: 480px) {
+  #aboutModal [role="dialog"] {
+    border-radius: 20px;
+    max-height: 94vh;
+  }
+  #aboutModal .max-h-\[65vh\] {
+    max-height: 64vh;
+  }
+}
 
-    .ring-gold:focus {
-      box-shadow: 0 0 0 4px rgba(200, 155, 60, .22);
-      border-color: rgba(200, 155, 60, .55);
-    }
+/* Prevent iOS zoom on input focus */
+input, select, textarea {
+  font-size: 16px;
+}
 
-    .job-card {
-      cursor: pointer;
-    }
-
-    .job-card:focus-within {
-      outline: 2px solid rgba(200, 155, 60, .45);
-      outline-offset: 4px;
-      border-radius: 24px;
-    }
+/* If screen is short, hide top button to avoid overlap */
+@media (max-height: 700px) {
+  #toTop { display: none; }
+}

@@ -30,12 +30,14 @@ revealEls.forEach((el) => io.observe(el));
 
 
 const header = document.getElementById("siteHeader");
-const onScrollHeader = () => {
-  if (window.scrollY > 12) header.classList.add("header-scrolled");
-  else header.classList.remove("header-scrolled");
-};
-window.addEventListener("scroll", onScrollHeader);
-onScrollHeader();
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 10) {
+    header.classList.add("header-scrolled");
+  } else {
+    header.classList.remove("header-scrolled");
+  }
+});
 
 
 const navLinks = Array.from(document.querySelectorAll("#deskNav .navlink"));
